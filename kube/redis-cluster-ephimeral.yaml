@@ -46,7 +46,7 @@ objects:
 - apiVersion: "v1"
   kind: "BuildConfig"
   metadata:
-    name: "pinpoint"
+    name: "redis-cluster"
   spec:
     triggers:
       - type: ConfigChange
@@ -54,44 +54,39 @@ objects:
     source:
       type: Git
       git:
-        uri: https://github.com/makentenza/ocp-pinpoint-apm.git
+        uri: https://github.com/makentenza/ocp-redis-cluster.git
     strategy:
       type: "Docker"
       dockerStrategy:
         from:
           kind: "DockerImage"
-          name: "centos:7"
+          name: "docker.io/redis"
     output:
       to:
         kind: "ImageStreamTag"
-        name: "pinpoint:latest"
+        name: "redis-cluster-node:latest"
 - apiVersion: "v1"
   kind: DeploymentConfig
   metadata:
-    name: "pinpoint-apm"
+    name: "redis-cluster"
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          name: "pinpoint-apm"
+          name: "redis-cluster"
       spec:
         containers:
-        - name: "pinpoint"
-          image: "172.30.32.89:5000/pinpoint-apm/pinpoint"
+        - name: "redis-cluster-node01"
+          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
           ports:
-          - containerPort: 28080
+          - containerPort: 6379
             protocol: TCP
-          - containerPort: 28081
+        - name: "redis-cluster-node02"
+          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          ports:
+          - containerPort: 6379
             protocol: TCP
-          - containerPort: 9994
-            protocol: TCP
-          - containerPort: 9995
-            protocol: UDP
-          - containerPort: 9996
-            protocol: UDP
-        serviceAccount: pinpoint
-        serviceAccountName: pinpoint
     replicas: 1
     triggers:
       - type: "ConfigChange"
@@ -99,10 +94,11 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - "pinpoint"
+            - "redis-cluster-node01"
+            - "redis-cluster-node02"
           from:
             kind: "ImageStreamTag"
-            name: "pinpoint:latest"
+            name: "redis-cluster-node:latest"
     strategy:
       type: "Rolling"
     paused: false
