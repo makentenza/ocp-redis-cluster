@@ -60,7 +60,7 @@ objects:
       dockerStrategy:
         from:
           kind: "DockerImage"
-          name: "docker.io/redis:latest"
+          name: "docker.io/redis:3.2.6"
     output:
       to:
         kind: "ImageStreamTag"
