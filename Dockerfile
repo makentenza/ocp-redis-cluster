@@ -1,4 +1,4 @@
-FROM redis
+FROM redis:latest
 MAINTAINER Marcos Entenza <mak@redhat.com>
 
 COPY src/redis.conf /usr/local/etc/redis/redis.conf
