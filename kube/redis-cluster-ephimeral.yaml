@@ -22,6 +22,20 @@ objects:
 - apiVersion: v1
   kind: Service
   metadata:
+    name: redis-cluster-service
+  spec:
+    ports:
+    - name: redis-cluster-service
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      name: redis-cluster
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
     name: redis-cluster-node01
   spec:
     ports:
