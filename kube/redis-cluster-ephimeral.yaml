@@ -30,7 +30,7 @@ objects:
       protocol: TCP
       targetPort: 6379
     selector:
-      name: redis-cluster
+      sname: redis-cluster
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1
@@ -92,8 +92,8 @@ objects:
     template:
       metadata:
         labels:
-          - name: "redis-cluster-node02"
-          - name: "redis-cluster"
+          name: "redis-cluster-node01"
+          sname: "redis-cluster"
       spec:
         containers:
         - name: "redis-cluster-node01"
@@ -128,8 +128,8 @@ objects:
     template:
       metadata:
         labels:
-          - name: "redis-cluster-node02"
-          - name: "redis-cluster"
+          name: "redis-cluster-node02"
+          sname: "redis-cluster"
       spec:
         containers:
         - name: "redis-cluster-node02"
