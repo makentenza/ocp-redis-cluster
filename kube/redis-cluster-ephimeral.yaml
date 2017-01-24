@@ -78,7 +78,7 @@ objects:
       dockerStrategy:
         from:
           kind: "DockerImage"
-          name: "docker.io/redis:3.2.6"
+          name: "centos:7"
     output:
       to:
         kind: "ImageStreamTag"

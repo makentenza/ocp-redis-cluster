@@ -6,7 +6,8 @@ RUN groupadd -r redis && useradd -r -g redis redis
 RUN yum update -y && \
 yum install -y make gcc rubygems && yum clean all
 
-RUN gem install redis
+RUN echo "151.101.64.70 rubygems.org">> /etc/hosts && \
+gem install redis
 
 WORKDIR /usr/local/src/
 
