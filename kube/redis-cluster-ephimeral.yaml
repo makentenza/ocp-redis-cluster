@@ -93,8 +93,8 @@ objects:
       metadata:
         labels:
           name:
-            - "redis-cluster-node01"
-            - "redis-cluster"
+            "redis-cluster-node01"
+            "redis-cluster"
       spec:
         containers:
         - name: "redis-cluster-node01"
@@ -130,8 +130,8 @@ objects:
       metadata:
         labels:
           name:
-            - "redis-cluster-node02"
-            - "redis-cluster"
+            "redis-cluster-node02"
+            "redis-cluster"
       spec:
         containers:
         - name: "redis-cluster-node02"
