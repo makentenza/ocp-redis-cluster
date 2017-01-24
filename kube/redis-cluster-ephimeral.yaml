@@ -11,6 +11,10 @@ metadata:
   name: redis-cluster-ephemeral
   namespace: openshift
 objects:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: redis
 - apiVersion: "v1"
   kind: "ImageStream"
   metadata:
