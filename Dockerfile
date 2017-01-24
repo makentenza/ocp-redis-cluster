@@ -1,13 +1,13 @@
 FROM centos:7
 MAINTAINER Marcos Entenza <mak@redhat.com>
 
+RUN groupadd -r redis && useradd -r -g redis redis
+
 RUN yum update -y && \
-yum install -y make gcc rubygems && yum clean all
+yum install -y make gcc rubygems && yum clean all && \
+mkdir /usr/local/etc
 
 RUN gem install redis
-
-RUN mkdir /usr/local/bin && \
-mkdir /usr/local/etc && \
 
 WORKDIR /usr/local/src/
 
@@ -21,7 +21,15 @@ cp /usr/local/src/redis-3.2.6/src/redis-trib.rb /usr/local/bin && \
 rm -rf /usr/local/src/redis*
 
 COPY src/redis-cluster-node01.conf /usr/local/etc/redis.conf
+COPY src/*.sh /usr/local/bin/
 
-EXPOSE 6381
+
+RUN mkdir /data && chown redis:redis /data
+VOLUME /data
+WORKDIR /data
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 6379
 
 CMD [ "redis-server", "/usr/local/etc/redis.conf" ]
