@@ -12,7 +12,7 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
 
 3. Create the new application from the imported template
 
-      # oc new-app redis-cluster-ephemeral
+        # oc new-app redis-cluster-ephemeral
 
       --> Deploying template "openshift/redis-cluster-ephemeral" to project redis-cluster
 
@@ -32,7 +32,7 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
           buildconfig "redis-cluster" created
           deploymentconfig "redis-cluster-node01" created
           deploymentconfig "redis-cluster-node02" created
-          
+
       --> Success
 
 
