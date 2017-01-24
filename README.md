@@ -16,21 +16,23 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
 
       --> Deploying template "openshift/redis-cluster-ephemeral" to project redis-cluster
 
-      redis-cluster-ephemeral
-      ---------
-      Redis 2 Cluster Node Ephemeral
+          redis-cluster-ephemeral
+          ---------
+          Redis 2 Cluster Node Ephemeral
 
-      Redis 2 Cluster Node Ephemeral
+          Redis 2 Cluster Node Ephemeral
 
-      --> Creating resources ...
-      serviceaccount "redis" created
-      imagestream "redis-cluster-node" created
-      service "redis-cluster-service" created
-      service "redis-cluster-node01" created
-      service "redis-cluster-node02" created
-      buildconfig "redis-cluster" created
-      deploymentconfig "redis-cluster-node01" created
-      deploymentconfig "redis-cluster-node02" created
+      --> Creating resources
+
+          serviceaccount "redis" created
+          imagestream "redis-cluster-node" created
+          service "redis-cluster-service" created
+          service "redis-cluster-node01" created
+          service "redis-cluster-node02" created
+          buildconfig "redis-cluster" created
+          deploymentconfig "redis-cluster-node01" created
+          deploymentconfig "redis-cluster-node02" created
+          
       --> Success
 
 
