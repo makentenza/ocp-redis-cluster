@@ -91,6 +91,8 @@ objects:
           ports:
           - containerPort: 6379
             protocol: TCP
+        serviceAccount: redis
+        serviceAccountName: redis
     replicas: 1
     triggers:
       - type: "ConfigChange"
