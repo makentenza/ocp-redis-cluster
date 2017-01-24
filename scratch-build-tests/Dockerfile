@@ -17,8 +17,7 @@ cd redis-3.2.6 && \
 make MALLOC=libc
 
 RUN for file in $(grep -r --exclude=*.h --exclude=*.o /usr/local/src/redis-3.2.6/src | awk {'print $3'}); do cp $file /usr/local/bin; done && \
-cp /usr/local/src/redis-3.2.6/src/redis-trib.rb /usr/local/bin && \
-rm -rf /usr/local/src/redis*
+cp /usr/local/src/redis-3.2.6/src/redis-trib.rb /usr/local/bin
 
 COPY src/redis-cluster-node01.conf /usr/local/etc/redis.conf
 
