@@ -4,8 +4,7 @@ MAINTAINER Marcos Entenza <mak@redhat.com>
 RUN groupadd -r redis && useradd -r -g redis redis
 
 RUN yum update -y && \
-yum install -y make gcc rubygems && yum clean all && \
-mkdir /usr/local/etc
+yum install -y make gcc rubygems && yum clean all
 
 RUN gem install redis
 
