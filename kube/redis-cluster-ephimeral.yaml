@@ -78,7 +78,7 @@ objects:
     template:
       metadata:
         labels:
-          name: "redis-cluster"
+          name: "redis-cluster-node01"
       spec:
         containers:
         - name: "redis-cluster-node01"
@@ -86,6 +86,14 @@ objects:
           ports:
           - containerPort: 6379
             protocol: TCP
+        serviceAccount: redis
+        serviceAccountName: redis
+    template:
+      metadata:
+        labels:
+          name: "redis-cluster-node02"
+      spec:
+        containers:
         - name: "redis-cluster-node02"
           image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
           ports:
