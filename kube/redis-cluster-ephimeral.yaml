@@ -43,6 +43,10 @@ objects:
       port: 6379
       protocol: TCP
       targetPort: 6379
+    - name: redis-01-cluster
+      port: 16379
+      protocol: TCP
+      targetPort: 16379
     selector:
       name: redis-cluster-node01
     sessionAffinity: None
@@ -57,6 +61,10 @@ objects:
       port: 6379
       protocol: TCP
       targetPort: 6379
+    - name: redis-02-cluster
+      port: 16379
+      protocol: TCP
+      targetPort: 16379
     selector:
       name: redis-cluster-node02
     sessionAffinity: None
@@ -71,6 +79,10 @@ objects:
       port: 6379
       protocol: TCP
       targetPort: 6379
+    - name: redis-03-cluster
+      port: 16379
+      protocol: TCP
+      targetPort: 16379
     selector:
       name: redis-cluster-node03
     sessionAffinity: None

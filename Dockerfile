@@ -34,6 +34,6 @@ WORKDIR /data
 
 USER redis
 
-EXPOSE 6379
+EXPOSE 6379 16379
 
 CMD [ "redis-server", "/usr/local/etc/redis.conf" ]
