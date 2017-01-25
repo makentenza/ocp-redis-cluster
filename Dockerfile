@@ -36,5 +36,4 @@ USER redis
 
 EXPOSE 6379
 
-#CMD [ "redis-server", "/usr/local/etc/redis.conf" ]
-CMD [ "sleep", "10000000" ]
+CMD [ "redis-server", "/usr/local/etc/redis.conf" ]

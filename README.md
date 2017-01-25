@@ -29,9 +29,11 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
           service "redis-cluster-service" created
           service "redis-cluster-node01" created
           service "redis-cluster-node02" created
+          service "redis-cluster-node03" created
           buildconfig "redis-cluster" created
           deploymentconfig "redis-cluster-node01" created
           deploymentconfig "redis-cluster-node02" created
+          deploymentconfig "redis-cluster-node03" created
 
       --> Success
 
