@@ -7,4 +7,4 @@ NODE1=$NODE1_IP":6379"
 NODE2=$NODE2_IP":6379"
 NODE3=$NODE3_IP":6379"
 
-/usr/local/bin/redis-trib.rb create $NODE1 $NODE2 $NODE3 
+/usr/local/bin/redis-trib.rb create $NODE1 $NODE2 $NODE3
