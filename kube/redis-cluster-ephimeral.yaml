@@ -221,7 +221,7 @@ objects:
         post:
           failurePolicy: Abort
           execNewPod:
-            containerName: redis-cluster-init
+            containerName: redis-cluster-node03
             command: [ "/usr/local/bin/cluster-init.sh" ]
     paused: false
     revisionHistoryLimit: 2
