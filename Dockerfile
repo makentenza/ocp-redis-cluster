@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Marcos Entenza <mak@redhat.com>
 
-RUN groupadd -r redis && useradd -r -g redis redis
+RUN groupadd -r redis && useradd -r -g redis -d /home/redis -m redis
 
 RUN yum update -y && \
 yum install -y make gcc rubygems && yum clean all
