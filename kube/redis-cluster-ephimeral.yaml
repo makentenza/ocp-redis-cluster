@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Template
 labels:
   template: redis-cluster-ephemeral
-message: Redis 2 Cluster Node Ephemeral
+message: Redis 3 Cluster Node Ephemeral
 metadata:
   annotations:
-    description: Redis 2 Cluster Node Ephemeral
+    description: Redis 3 Cluster Node Ephemeral
     iconClass: icon-mysql-database
     tags: redis-cluster
   name: redis-cluster-ephemeral

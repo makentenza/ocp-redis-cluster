@@ -18,9 +18,9 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
 
           redis-cluster-ephemeral
           ---------
-          Redis 2 Cluster Node Ephemeral
+          Redis 3 Cluster Node Ephemeral
 
-          Redis 2 Cluster Node Ephemeral
+          Redis 3 Cluster Node Ephemeral
 
       --> Creating resources
 
