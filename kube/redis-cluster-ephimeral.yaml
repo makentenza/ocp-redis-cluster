@@ -61,6 +61,20 @@ objects:
       name: redis-cluster-node02
     sessionAffinity: None
     type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: redis-cluster-node03
+  spec:
+    ports:
+    - name: redis-03
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      name: redis-cluster-node03
+    sessionAffinity: None
+    type: ClusterIP
 - apiVersion: "v1"
   kind: "BuildConfig"
   metadata:
@@ -147,6 +161,42 @@ objects:
           automatic: true
           containerNames:
             - "redis-cluster-node02"
+          from:
+            kind: "ImageStreamTag"
+            name: "redis-cluster-node:latest"
+    strategy:
+      type: "Rolling"
+    paused: false
+    revisionHistoryLimit: 2
+    minReadySeconds: 0
+- apiVersion: "v1"
+  kind: DeploymentConfig
+  metadata:
+    name: "redis-cluster-node03"
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: "redis-cluster-node03"
+          sname: "redis-cluster"
+      spec:
+        containers:
+        - name: "redis-cluster-node03"
+          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          ports:
+          - containerPort: 6379
+            protocol: TCP
+        serviceAccount: redis
+        serviceAccountName: redis
+    replicas: 1
+    triggers:
+      - type: "ConfigChange"
+      - type: "ImageChange"
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - "redis-cluster-node03"
           from:
             kind: "ImageStreamTag"
             name: "redis-cluster-node:latest"
