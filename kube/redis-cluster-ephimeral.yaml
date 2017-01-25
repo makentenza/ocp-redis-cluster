@@ -202,6 +202,11 @@ objects:
             protocol: TCP
           - containerPort: 16379
             protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/usr/local/bin/cluster-init.sh"
         serviceAccount: redis
         serviceAccountName: redis
     replicas: 1
@@ -225,7 +230,7 @@ objects:
   metadata:
     name: "redis-cluster-init"
   spec:
-    replicas: 1
+    replicas: 0
     template:
       metadata:
         labels:
@@ -238,7 +243,7 @@ objects:
             - /usr/local/bin/cluster-init.sh
         serviceAccount: redis
         serviceAccountName: redis
-    replicas: 1
+    replicas: 0
     triggers:
       - type: "ConfigChange"
       - type: "ImageChange"
