@@ -234,7 +234,8 @@ objects:
         containers:
         - name: "redis-cluster-init"
           image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
-          command: "cluster-init.sh"
+          args:
+            - /usr/local/bin/cluster-init.sh
         serviceAccount: redis
         serviceAccountName: redis
     replicas: 1

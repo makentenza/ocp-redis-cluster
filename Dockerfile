@@ -4,7 +4,7 @@ MAINTAINER Marcos Entenza <mak@redhat.com>
 RUN groupadd -r redis && useradd -r -g redis -d /home/redis -m redis
 
 RUN yum update -y && \
-yum install -y make gcc rubygems && yum clean all
+yum install -y make gcc rubygems expect && yum clean all
 
 RUN echo "151.101.64.70 rubygems.org">> /etc/hosts && \
 gem install redis
@@ -27,7 +27,8 @@ COPY src/*.sh /usr/local/bin/
 
 RUN mkdir /data && chown redis:redis /data && \
 chown -R redis:redis /usr/local/bin/ && \
-chown -R redis:redis /usr/local/etc/
+chown -R redis:redis /usr/local/etc/ && \
+chmod +x /usr/local/bin/cluster-init.sh
 
 VOLUME /data
 WORKDIR /data
