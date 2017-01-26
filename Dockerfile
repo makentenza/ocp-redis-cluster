@@ -1,6 +1,11 @@
 FROM centos:7
 MAINTAINER Marcos Entenza <mak@redhat.com>
 
+LABEL io.k8s.description="3 Node Redis Cluster" \
+      io.k8s.display-name="Redis Cluster" \
+      io.openshift.expose-services="6379:tcp" \
+      io.openshift.tags="redis-cluster"
+
 RUN groupadd -r redis && useradd -r -g redis -d /home/redis -m redis
 
 RUN yum update -y && \
