@@ -120,7 +120,8 @@ objects:
       spec:
         containers:
         - name: "redis-cluster-node01"
-          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          #image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          image: "redis-cluster-node"
           ports:
           - containerPort: 6379
             protocol: TCP
@@ -158,7 +159,8 @@ objects:
       spec:
         containers:
         - name: "redis-cluster-node02"
-          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          #image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          image: "redis-cluster-node"
           ports:
           - containerPort: 6379
             protocol: TCP
@@ -196,7 +198,8 @@ objects:
       spec:
         containers:
         - name: "redis-cluster-node03"
-          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          #image: "172.30.32.89:5000/redis-cluster/redis-cluster-node"
+          image: "redis-cluster-node"
           ports:
           - containerPort: 6379
             protocol: TCP
