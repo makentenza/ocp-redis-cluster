@@ -41,3 +41,5 @@ The objetive for this repository is to deploy a Redis Cluster on top of Openshif
 4. Add the redis service account to anyuid Security Context Constraint so redis user could start processes inside de image
 
         # oadm policy add-scc-to-user anyuid system:serviceaccount:redis-cluster:redis
+
+### Following this instructions a 3 Redis Cluster Node will automatically created, properly shard Nodes so data is automatically sharded across multiple Redis nodes. In order to operate the Cluster (Adding Nodes, Removing Nodes, Resharding the Cluster) follow the [Offical Documentation](https://redis.io/topics/cluster-tutorial)
