@@ -19,71 +19,6 @@ objects:
   kind: "ImageStream"
   metadata:
     name: "redis-cluster-node"
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: redis-cluster-service
-  spec:
-    ports:
-    - name: redis-cluster-service
-      port: 6379
-      protocol: TCP
-      targetPort: 6379
-    selector:
-      sname: redis-cluster
-    sessionAffinity: None
-    type: ClusterIP
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: redis-cluster-node01
-  spec:
-    ports:
-    - name: redis-01
-      port: 6379
-      protocol: TCP
-      targetPort: 6379
-    - name: redis-01-cluster
-      port: 16379
-      protocol: TCP
-      targetPort: 16379
-    selector:
-      name: redis-cluster-node01
-    clusterIP: None
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: redis-cluster-node02
-  spec:
-    ports:
-    - name: redis-02
-      port: 6379
-      protocol: TCP
-      targetPort: 6379
-    - name: redis-02-cluster
-      port: 16379
-      protocol: TCP
-      targetPort: 16379
-    selector:
-      name: redis-cluster-node02
-    clusterIP: None
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: redis-cluster-node03
-  spec:
-    ports:
-    - name: redis-03
-      port: 6379
-      protocol: TCP
-      targetPort: 6379
-    - name: redis-03-cluster
-      port: 16379
-      protocol: TCP
-      targetPort: 16379
-    selector:
-      name: redis-cluster-node03
-    clusterIP: None
 - apiVersion: "v1"
   kind: "BuildConfig"
   metadata:
@@ -106,123 +41,75 @@ objects:
       to:
         kind: "ImageStreamTag"
         name: "redis-cluster-node:latest"
-- apiVersion: "v1"
-  kind: DeploymentConfig
+- apiVersion: v1
+  kind: Service
   metadata:
-    name: "redis-cluster-node01"
+    name: redis-cluster-service
   spec:
-    replicas: 1
+    ports:
+    - name: redis-cluster-service
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      sname: redis-master
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: apps/v1alpha1
+  kind: PetSet
+  metadata:
+    name: redis-cluster
+  spec:
+    serviceName: redis-node
+    replicas: 3
     template:
       metadata:
         labels:
-          name: "redis-cluster-node01"
-          sname: "redis-cluster"
+          app: redis-master
+        annotations:
+          pod.alpha.kubernetes.io/initialized: "false"
       spec:
         containers:
-        - name: "redis-cluster-node01"
+        - name: redis-master
+          imagePullPolicy: Always
           image: "redis-cluster-node"
           ports:
           - containerPort: 6379
-            protocol: TCP
+            name: redis
           - containerPort: 16379
-            protocol: TCP
-        serviceAccount: redis
-        serviceAccountName: redis
-    replicas: 1
-    triggers:
-      - type: "ConfigChange"
-      - type: "ImageChange"
-        imageChangeParams:
-          automatic: true
-          containerNames:
-            - "redis-cluster-node01"
-          from:
-            kind: "ImageStreamTag"
-            name: "redis-cluster-node:latest"
-    strategy:
-      type: "Rolling"
-    paused: false
-    revisionHistoryLimit: 2
-    minReadySeconds: 0
-- apiVersion: "v1"
-  kind: DeploymentConfig
-  metadata:
-    name: "redis-cluster-node02"
-  spec:
-    replicas: 1
-    template:
-      metadata:
-        labels:
-          name: "redis-cluster-node02"
-          sname: "redis-cluster"
-      spec:
-        containers:
-        - name: "redis-cluster-node02"
-          image: "redis-cluster-node"
-          ports:
-          - containerPort: 6379
-            protocol: TCP
-          - containerPort: 16379
-            protocol: TCP
-        serviceAccount: redis
-        serviceAccountName: redis
-    replicas: 1
-    triggers:
-      - type: "ConfigChange"
-      - type: "ImageChange"
-        imageChangeParams:
-          automatic: true
-          containerNames:
-            - "redis-cluster-node02"
-          from:
-            kind: "ImageStreamTag"
-            name: "redis-cluster-node:latest"
-    strategy:
-      type: "Rolling"
-    paused: false
-    revisionHistoryLimit: 2
-    minReadySeconds: 0
-- apiVersion: "v1"
-  kind: DeploymentConfig
-  metadata:
-    name: "redis-cluster-node03"
-  spec:
-    replicas: 1
-    template:
-      metadata:
-        labels:
-          name: "redis-cluster-node03"
-          sname: "redis-cluster"
-      spec:
-        containers:
-        - name: "redis-cluster-node03"
-          image: "redis-cluster-node"
-          ports:
-          - containerPort: 6379
-            protocol: TCP
-          - containerPort: 16379
-            protocol: TCP
-        serviceAccount: redis
-        serviceAccountName: redis
-    replicas: 1
-    triggers:
-      - type: "ConfigChange"
-      - type: "ImageChange"
-        imageChangeParams:
-          automatic: true
-          containerNames:
-            - "redis-cluster-node03"
-          from:
-            kind: "ImageStreamTag"
-            name: "redis-cluster-node:latest"
-    strategy:
-      type: "Rolling"
-      rollingParams:
-        post:
-          failurePolicy: Abort
-          execNewPod:
-            containerName: redis-cluster-node03
-            command: [ "/usr/bin/bash", "/usr/local/bin/cluster-init.sh" ]
-    paused: false
-    revisionHistoryLimit: 2
-    minReadySeconds: 0
+            name: redis-quorum
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: POD_PREFIX
+            value: redis-master
+          - name: HEADLESS_SVC_NAME
+            value: redis-master
+          livenessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
