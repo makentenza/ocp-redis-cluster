@@ -4,7 +4,7 @@ MAINTAINER Marcos Entenza <mak@redhat.com>
 LABEL io.k8s.description="Redis Cluster Node" \
       io.k8s.display-name="Redis Cluster Node" \
       io.openshift.expose-services="6379:tcp,16379:tcp" \
-      io.openshift.tags="redis-cluster"
+      io.openshift.tags="redis-node"
 
 RUN groupadd -r redis && useradd -r -g redis -d /home/redis -m redis
 
