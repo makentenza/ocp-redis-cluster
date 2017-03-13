@@ -16,10 +16,6 @@ objects:
   metadata:
     name: redis
 - apiVersion: "v1"
-  kind: "ImageStream"
-  metadata:
-    name: "redis-cluster-node"
-- apiVersion: "v1"
   kind: "BuildConfig"
   metadata:
     name: "redis-cluster"
@@ -67,12 +63,12 @@ objects:
         labels:
           app: redis-master
         annotations:
-          pod.alpha.kubernetes.io/initialized: "false"
+          pod.alpha.kubernetes.io/initialized: "true"
       spec:
         containers:
         - name: redis-master
           imagePullPolicy: IfNotPresent
-          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node:latest"
+          image: "docker-registry.default.svc.cluster.local:5000/redis-cluster/redis-cluster-node:latest"
           ports:
           - containerPort: 6379
             name: redis
