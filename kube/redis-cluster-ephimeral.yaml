@@ -67,11 +67,11 @@ objects:
         labels:
           app: redis-master
         annotations:
-          pod.alpha.kubernetes.io/initialized: "true"
+          pod.alpha.kubernetes.io/initialized: "false"
       spec:
         containers:
         - name: redis-master
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           image: "172.30.32.89:5000/redis-cluster/redis-cluster-node:latest"
           ports:
           - containerPort: 6379
