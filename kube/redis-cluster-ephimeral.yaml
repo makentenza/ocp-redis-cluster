@@ -60,14 +60,14 @@ objects:
   metadata:
     name: redis-cluster
   spec:
-    serviceName: redis-node
+    serviceName: redis-cluster-service
     replicas: 3
     template:
       metadata:
         labels:
           app: redis-master
         annotations:
-          pod.alpha.kubernetes.io/initialized: "false"
+          pod.alpha.kubernetes.io/initialized: "true"
       spec:
         containers:
         - name: redis-master
