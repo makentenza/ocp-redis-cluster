@@ -15,28 +15,33 @@ objects:
   kind: ServiceAccount
   metadata:
     name: redis
-- apiVersion: "v1"
-  kind: "BuildConfig"
-  metadata:
-    name: "redis-cluster"
-  spec:
-    triggers:
-      - type: ConfigChange
-      - type: ImageChange
-    source:
-      type: Git
-      git:
-        uri: https://github.com/makentenza/ocp-redis-cluster.git
-    strategy:
-      type: "Docker"
-      dockerStrategy:
-        from:
-          kind: "DockerImage"
-          name: "centos:7"
-    output:
-      to:
-        kind: "ImageStreamTag"
-        name: "redis-cluster-node:latest"
+- apiVersion: v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: redis-cluster-ephemeral
+    template: redis-cluster-ephemeral
+  name: redis-cluster
+spec:
+  output:
+    to:
+      kind: DockerImage
+      name: docker-registry.default.svc.cluster.local:5000/redis-cluster/redis-cluster-node:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: https://github.com/makentenza/ocp-redis-cluster.git
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: DockerImage
+        name: centos:7
+    type: Docker
+  triggers:
+  - type: ConfigChange
 - apiVersion: v1
   kind: Service
   metadata:
