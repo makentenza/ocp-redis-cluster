@@ -72,7 +72,7 @@ objects:
         containers:
         - name: redis-master
           imagePullPolicy: Always
-          image: "redis-cluster-node:latest"
+          image: "172.30.32.89:5000/redis-cluster/redis-cluster-node:latest"
           ports:
           - containerPort: 6379
             name: redis
