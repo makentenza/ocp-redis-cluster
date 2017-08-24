@@ -16,14 +16,14 @@ gem install redis
 
 WORKDIR /usr/local/src/
 
-RUN curl -o redis-3.2.6.tar.gz http://download.redis.io/releases/redis-3.2.6.tar.gz && \
-tar xzf redis-3.2.6.tar.gz && \
-cd redis-3.2.6 && \
+RUN curl -o redis-4.0.1.tar.gz http://download.redis.io/releases/redis-4.0.1.tar.gz && \
+tar xzf redis-4.0.1.tar.gz && \
+cd redis-4.0.1 && \
 make MALLOC=libc
 
-RUN for file in $(grep -r --exclude=*.h --exclude=*.o /usr/local/src/redis-3.2.6/src | awk {'print $3'}); do cp $file /usr/local/bin; done && \
-cp /usr/local/src/redis-3.2.6/src/redis-trib.rb /usr/local/bin && \
-cp -r /usr/local/src/redis-3.2.6/utils /usr/local/bin && \
+RUN for file in $(grep -r --exclude=*.h --exclude=*.o /usr/local/src/redis-4.0.1/src | awk {'print $3'}); do cp $file /usr/local/bin; done && \
+cp /usr/local/src/redis-4.0.1/src/redis-trib.rb /usr/local/bin && \
+cp -r /usr/local/src/redis-4.0.1/utils /usr/local/bin && \
 rm -rf /usr/local/src/redis*
 
 COPY src/redis.conf /usr/local/etc/redis.conf
