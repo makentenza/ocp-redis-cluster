@@ -6,10 +6,22 @@ LABEL io.k8s.description="3 Node Redis Cluster" \
       io.openshift.expose-services="6379:tcp" \
       io.openshift.tags="redis-cluster"
 
+ENV PATH="/usr/local/rvm/rubies/ruby-2.4.1/bin:${PATH}"
+
 RUN groupadd -r redis && useradd -r -g redis -d /home/redis -m redis
 
 RUN yum update -y && \
-yum install -y make gcc rubygems nmap-ncat && yum clean all
+yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make \
+    bzip2 autoconf automake libtool bison iconv-devel sqlite-devel which && \
+yum clean all
+
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - && \
+curl -L get.rvm.io | bash -s stable && \
+source /etc/profile.d/rvm.sh && \
+/usr/local/rvm/bin/rvm reload && \
+/usr/local/rvm/bin/rvm requirements run && \
+/usr/local/rvm/bin/rvm install 2.4 && \
+/usr/local/rvm/bin/rvm use 2.4 --default
 
 RUN echo "151.101.64.70 rubygems.org">> /etc/hosts && \
 gem install redis
